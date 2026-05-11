@@ -47,6 +47,16 @@ lh explain how these regexes work
 ...
 ```
 
+Continue the most recent conversation:
+
+```sh
+# After an explain response, ask a follow-up question:
+lh continue can you show me an example with -regex instead?
+
+# Abbreviations are supported: con, cont, or continue all work
+lh con why does the * allow zero digits?
+```
+
 You can read my [blog entry](https://www.pinedesk.biz/dailytoon/2025-08-11-2025-08-17/#making-llm-helpers-for-the-cli) for more information about how can help you on the CLI.
 
 ## Installation

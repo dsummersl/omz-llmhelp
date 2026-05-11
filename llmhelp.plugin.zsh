@@ -24,8 +24,8 @@ lh() {
   # Optional user-supplied prompt text; else a default
   local query="${*:-Can you correct the previous command or explain why it won't work?}"
 
-  # Set explainmode to true if query starts with 'explain'
   local explainmode=false; [[ "$query" =~ ^(explain|why) ]] && explainmode=true
+  local continuemode=false; [[ "$query" =~ ^(con|cont|continue) ]] && continuemode=true
 
   # Base info
   local info
@@ -69,7 +69,9 @@ EOF
   fi
 
   local payload="$query"$'\n\n'"$info"
-  if [[ "$explainmode" == false ]]; then
+  if [[ "$continuemode" == true ]]; then
+    uv tool run llm --continue "${query#* }" | $LLMHELP_PAGER_CMD
+  elif [[ "$explainmode" == false ]]; then
     uv tool run llm -t $LLMHELP_LLM_TEMPLATE "$payload" | tr -d '\n' | tee >($LLMHELP_CLIP_CMD)
   else
     uv tool run llm -t $LLMHELP_LLM_TEMPLATE_EXPLAIN "$payload" | $LLMHELP_PAGER_CMD
